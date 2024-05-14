@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import ChatLoading from '../ChatLoading';
 import UserListItem from '../userAvatar/UserListItem';
 import axios from 'axios';
+import { getSender } from '../../config/chatLogics';
 
 const SideDrawer = () => {
     const [search, setSearch] = useState("");
@@ -115,7 +116,7 @@ const SideDrawer = () => {
                         </MenuButton>
                         <MenuList pl={2}>
                             {!notification.length && "No New Messages"}
-                            {/* {notification.map((notif) => (
+                            {notification.map((notif) => (
                                 <MenuItem
                                     key={notif._id}
                                     onClick={() => {
@@ -127,7 +128,7 @@ const SideDrawer = () => {
                                         ? `New Message in ${notif.chat.chatName}`
                                         : `New Message from ${getSender(user, notif.chat.users)}`}
                                 </MenuItem>
-                            ))} */}
+                            ))}
                         </MenuList>
                     </Menu>
                     <Menu>
