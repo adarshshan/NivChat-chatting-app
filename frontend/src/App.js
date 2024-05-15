@@ -1,7 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import ChatPage from './pages/ChatPage';
-import HomePage from './pages/HomePage'
+import { lazy } from 'react';
+const ChatPage=lazy(()=>import('./pages/ChatPage'))
+const HomePage=lazy(()=>import('./pages/HomePage'))
 
 function App() {
   return (

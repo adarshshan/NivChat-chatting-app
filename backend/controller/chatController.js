@@ -24,7 +24,6 @@ const accessChat = asyncHandler(async (req, res) => {
         path: "latestMessage.sender",
         select: "name pic email",
     });
-    console.log(isChat); console.log('this will be the data');
     if (isChat.length > 0) {
         res.send(isChat[0]);
     } else {
@@ -54,7 +53,7 @@ const fetchChats = asyncHandler(async (req, res) => {
             .populate("groupAdmin", "-password")
             .populate("latestMessage")
             .sort({ updatedAt: -1 })
-            .then(async (results) => {
+            .then(async (results) => {  
                 results = await User.populate(results, {
                     path: "latestMessage.sender",
                     select: "name pic email",
@@ -123,7 +122,6 @@ const renameGroup = asyncHandler(async (req, res) => {
 });
 const removeFromGroup = asyncHandler(async (req, res) => {
     const { chatId, userId } = req.body;
-    console.log('this is teh kldfdlsfsdlfsldkf' + chatId + "  kldsfjslkdfj    " + userId)
     const removed = await Chat.findByIdAndUpdate(
         chatId,
         {
