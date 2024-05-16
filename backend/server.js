@@ -5,6 +5,7 @@ const connectDB = require('./config/db');
 const userRoutes = require('../backend/Routes/userRoutes');
 const chatRoutes = require('../backend/Routes/chatRoutes');
 const messageRoutes = require('../backend/Routes/messageRoutes');
+const path = require('path')
 
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
@@ -15,20 +16,27 @@ dotenv.config()
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send('api is runnig');
-})
-app.get('/api/chat', (req, res) => {
-    res.send(chats);
-})
-app.get('/api/chat/:id', (req, res) => {
-    const singleChat = chats.find(c => c._id === req.params.id)
-    res.send(singleChat);
-});
-
 app.use("/api/user", userRoutes)
 app.use("/api/chats", chatRoutes)
 app.use("/api/messages", messageRoutes)
+
+//......Diployment......//
+
+const __dirname1 = path.resolve(); console.log(process.env.NODE_ENV === 'production'); console.log(__dirname1)
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname1, '/frontend/build')))
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"));
+    })
+} else {
+    app.get('/', (req, res) => {
+        res.send('Api is Running successfully');
+    })
+}
+
+//......Diployment......//
+
 
 app.use(notFound)
 app.use(errorHandler)
